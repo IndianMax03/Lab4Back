@@ -38,12 +38,12 @@ public class HitsService {
         final double r = appendingRequest.getR();
         if (!Validator.checkCoordinatesValidity(x, y, r)) {
             return ResponseEntity.status(406)
-                    .body("""
+                    .body(new MessageResponse("""
                             not acceptable:
                             x in [-4; 4] - double (length = 12)
                             y in [-5; 5] - double (length = 12)
                             r in {-4, -3, -2, -1, 0, 1, 2, 3, 4} - integer
-                            """);
+                            """));
         }
         final int validR = (int) r;
         final String token = appendingRequest.getToken();
@@ -72,7 +72,7 @@ public class HitsService {
         } catch (Exception exception) {
             System.out.println("Error in appendHitAndReturnHits(): " + exception.getClass());
             return ResponseEntity.status(500)
-                    .body("server error: cannot save hit or return hits.\nerror class: " + exception.getClass());
+                    .body(new MessageResponse("server error: cannot save hit or return hits.\nerror class: " + exception.getClass()));
         }
 
     }
@@ -91,7 +91,7 @@ public class HitsService {
         } catch (Exception exception) {
             System.out.println("Error in getHits(): " + exception.getClass());
             return ResponseEntity.status(500)
-                    .body("server error: cannot save hit or return hits.\nerror class: " + exception.getClass());
+                    .body(new MessageResponse("server error: cannot save hit or return hits.\nerror class: " + exception.getClass()));
         }
     }
 
@@ -109,7 +109,7 @@ public class HitsService {
         } catch (Exception exception) {
             System.out.println("Error in deleteHits(): " + exception.getClass());
             return ResponseEntity.status(500)
-                    .body("server error: cannot delete.\nerror class: " + exception.getClass());
+                    .body(new MessageResponse("server error: cannot delete.\nerror class: " + exception.getClass()));
         }
     }
 

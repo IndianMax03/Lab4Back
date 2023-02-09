@@ -3,6 +3,7 @@ package com.manu.lab4.service.auth;
 import com.manu.lab4.listening.requests.LoginRequest;
 import com.manu.lab4.listening.requests.RegisterRequest;
 import com.manu.lab4.listening.responses.JwtResponse;
+import com.manu.lab4.listening.responses.MessageResponse;
 import com.manu.lab4.model.User;
 import com.manu.lab4.repositories.UserRepository;
 import com.manu.lab4.security.JwtUtils;
@@ -43,16 +44,16 @@ public class AuthService {
             UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
             return ResponseEntity.ok().body(new JwtResponse(token, userDetails.getId(), userDetails.getUsername()));
         } catch (BadCredentialsException exception) {
-            return ResponseEntity.status(401).body("permission denied");
+            return ResponseEntity.status(401).body(new MessageResponse("permission denied"));
         } catch (Exception exception) {
             System.out.println("Error in login(): " + exception.getClass());
-            return ResponseEntity.status(500).body("server error: cannot create user.\nerror class: " + exception.getClass());
+            return ResponseEntity.status(500).body(new MessageResponse("server error: cannot create user.\nerror class: " + exception.getClass()));
         }
     }
 
     public ResponseEntity<Object> register(RegisterRequest registerRequest) {
         if (!Validator.checkUsernameAndPassword(registerRequest.getUsername(), registerRequest.getPassword())) {
-            return ResponseEntity.status(400).body("error: username and password cannot contains whitespaces");
+            return ResponseEntity.status(400).body(new MessageResponse("username and password cannot contains whitespaces"));
         }
         User user = new User();
         UserDetailsImpl userDetails = new UserDetailsImpl(user);
@@ -67,10 +68,10 @@ public class AuthService {
             userDetails = (UserDetailsImpl) authentication.getPrincipal();
             return ResponseEntity.ok().body(new JwtResponse(token, userDetails.getId(), userDetails.getUsername()));
         } catch (DataIntegrityViolationException ex) {
-            return ResponseEntity.status(403).body("error: user already exists");
+            return ResponseEntity.status(403).body(new MessageResponse("user already exists"));
         } catch (Exception exception) {
             System.out.println("Error in register(): " + exception.getClass());
-            return ResponseEntity.status(500).body("server error: cannot create user.\nerror class: " + exception.getClass());
+            return ResponseEntity.status(500).body(new MessageResponse("server error: cannot create user.\nerror class: " + exception.getClass()));
         }
     }
 }
