@@ -24,14 +24,14 @@ public final class Validator {
         if (r > 0) {
             boolean firstQuater = (x >= 0) && (y >= 0) && (x*x + y*y <= r*r);
             boolean secondQuater = false;
-            boolean thirdQuater = (x <= 0) && (y <= 0) && (y >= ( (-x/2) - r/2) );
+            boolean thirdQuater = (x <= 0) && (y <= 0) && (y >= ( (-x/2) - (double) r/2) );
             boolean fourthQuater = (x >= 0) && (y <= 0) && (x <= r) && (y >= -r);
             return firstQuater || secondQuater || thirdQuater || fourthQuater;
         }
         if (r < 0) {
             r = -r;
-            boolean firstQuater = (x >= 0) && (y >= 0) && (y <= ( (-x/2) + r/2 ));
-            boolean secondQuater = ( x <= 0) && (y >= 0) && (x <= -r) && (y <= r);
+            boolean firstQuater = (x >= 0) && (y >= 0) && (y <= ( (-x/2) + (double) r/2 ));
+            boolean secondQuater = ( x <= 0) && (y >= 0) && (x >= -r) && (y <= r);
             boolean thirdQuater = (x <= 0) && (y <= 0) && (x*x + y*y <= r*r);
             boolean fourthQuater = false;
             return firstQuater || secondQuater || thirdQuater || fourthQuater;
